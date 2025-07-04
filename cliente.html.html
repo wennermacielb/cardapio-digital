@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery App UI</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light gray background for the outside area */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            /* Removed transition for background as dark mode is removed */
+        }
+        /* Custom scrollbar for demonstration if content overflows */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        /* Removed dark mode scrollbar styles */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        /* Removed dark mode scrollbar styles */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        /* Removed dark mode scrollbar styles */
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center">
+
+    <!-- Main container for the mobile app layout -->
+    <div class="relative w-full max-w-md bg-white shadow-lg rounded-lg overflow-hidden flex flex-col min-h-screen">
+
+        <!-- Header Section -->
+        <header class="p-4 pb-0 bg-white">
+            <div class="flex justify-between items-start mb-4">
+                <div>
+                    <h1 class="text-xl font-semibold text-gray-800">Olá, Gabriela</h1>
+                </div>
+                <!-- Dark Mode Toggle Button Removed -->
+            </div>
+        </header>
+
+        <!-- Main Content Area (Scrollable) -->
+        <main class="flex-grow overflow-y-auto p-4 pt-0">
+
+            <!-- Categories Section - Updated for digital menu items -->
+            <section class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-white rounded-lg shadow-sm p-4 flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                        <img src="https://placehold.co/40x40/FF4500/FFFFFF?text=Pizza" alt="Pizza icon" class="rounded-full">
+                    </div>
+                    <span class="font-medium text-gray-700">Pizza</span>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-4 flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
+                        <img src="https://placehold.co/40x40/FFD700/000000?text=Lanche" alt="Lanches icon" class="rounded-full">
+                    </div>
+                    <span class="font-medium text-gray-700">Lanches</span>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-4 flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                        <img src="https://placehold.co/40x40/32CD32/FFFFFF?text=Porção" alt="Porção icon" class="rounded-full">
+                    </div>
+                    <span class="font-medium text-gray-700">Porção</span>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-4 flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <img src="https://placehold.co/40x40/1E90FF/FFFFFF?text=Bebida" alt="Bebidas icon" class="rounded-full">
+                    </div>
+                    <span class="font-medium text-gray-700">Bebidas</span>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-4 flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                        <img src="https://placehold.co/40x40/8A2BE2/FFFFFF?text=Sobremesa" alt="Sobremesas icon" class="rounded-full">
+                    </div>
+                    <span class="font-medium text-gray-700">Sobremesas</span>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-4 flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                        <img src="https://placehold.co/40x40/FFA500/FFFFFF?text=Combo" alt="Combos icon" class="rounded-full">
+                    </div>
+                    <span class="font-medium text-gray-700">Combos</span>
+                </div>
+            </section>
+
+            <!-- Promotional Banner -->
+            <section class="relative w-full h-48 bg-gradient-to-r from-red-600 to-pink-500 rounded-xl overflow-hidden shadow-md mb-6 flex items-center justify-between p-4">
+                <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('https://placehold.co/600x400/FF0000/FFFFFF?text=Pattern');"></div>
+                <div class="relative z-10">
+                    <h2 class="text-3xl font-bold text-white leading-tight">famosos<br>com desconto</h2>
+                </div>
+                <div class="relative z-10 w-1/2 h-full flex items-center justify-center">
+                    <img src="https://placehold.co/200x150/FF0000/FFFFFF?text=Burger" alt="Burger image" class="max-h-full max-w-full object-contain transform translate-x-4 translate-y-4">
+                </div>
+                <div class="absolute top-4 right-4 bg-white text-red-600 px-3 py-1 rounded-full text-xs font-bold flex items-center">
+                    <img src="https://placehold.co/16x16/FF0000/FFFFFF?text=iF" alt="iFood logo" class="w-4 h-4 mr-1">
+                    Pede iFood!
+                </div>
+            </section>
+
+            <!-- Pratos Populares Section -->
+            <section class="mb-20">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-800">Pratos Populares</h3>
+                    <a href="#" class="text-sm text-red-500 font-medium">Ver todos</a>
+                </div>
+                <!-- Food Dish Cards -->
+                <div class="grid grid-cols-1 gap-4">
+                    <!-- Dish 1: Pizza Calabresa -->
+                    <div class="bg-white rounded-lg shadow-sm p-4 flex items-center space-x-3">
+                        <img src="https://placehold.co/80x80/FF4500/FFFFFF?text=Pizza" alt="Pizza Calabresa" class="w-20 h-20 rounded-lg object-cover">
+                        <div>
+                            <p class="font-medium text-gray-700">Pizza Calabresa</p>
+                            <p class="text-sm text-gray-500">Mussarela, calabresa, cebola e orégãos.</p>
+                            <p class="text-base font-semibold text-green-600 mt-1">R$ 35,00</p>
+                        </div>
+                    </div>
+                    <!-- Dish 2: X-Burger Duplo -->
+                    <div class="bg-white rounded-lg shadow-sm p-4 flex items-center space-x-3">
+                        <img src="https://placehold.co/80x80/FFD700/000000?text=Lanche" alt="X-Burger Duplo" class="w-20 h-20 rounded-lg object-cover">
+                        <div>
+                            <p class="font-medium text-gray-700">X-Burger Duplo</p>
+                            <p class="text-sm text-gray-500">Dois hambúrgueres, queijo, alface e molho especial.</p>
+                            <p class="text-base font-semibold text-green-600 mt-1">R$ 28,00</p>
+                        </div>
+                    </div>
+                    <!-- Dish 3: Batata Frita Grande -->
+                    <div class="bg-white rounded-lg shadow-sm p-4 flex items-center space-x-3">
+                        <img src="https://placehold.co/80x80/32CD32/FFFFFF?text=Porção" alt="Batata Frita Grande" class="w-20 h-20 rounded-lg object-cover">
+                        <div>
+                            <p class="font-medium text-gray-700">Batata Frita Grande</p>
+                            <p class="text-sm text-gray-500">Porção generosa de batatas fritas crocantes.</p>
+                            <p class="text-base font-semibold text-green-600 mt-1">R$ 15,00</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Bottom Navigation Bar -->
+        <nav class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-md bg-white border-t border-gray-200 shadow-lg rounded-t-lg flex justify-around items-center h-16 px-4">
+            <a href="#" class="flex flex-col items-center text-red-500 hover:text-red-500 transition-colors duration-200">
+                <i class="fas fa-home text-xl mb-1"></i>
+                <span class="text-xs">Início</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-500 hover:text-red-500 transition-colors duration-200">
+                <i class="fas fa-search text-xl mb-1"></i>
+                <span class="text-xs">Busca</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-500 hover:text-red-500 transition-colors duration-200">
+                <i class="fas fa-clipboard-list text-xl mb-1"></i>
+                <span class="text-xs">Pedidos</span>
+            </a>
+            <a href="#" class="flex flex-col items-center text-gray-500 hover:text-red-500">
+                <i class="fas fa-user text-xl mb-1"></i>
+                <span class="text-xs">Perfil</span>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('UI carregada!');
+
+            // Listeners de eventos existentes para categorias e pratos
+            document.querySelectorAll('section.grid > div').forEach(item => {
+                item.addEventListener('click', () => {
+                    const categoryName = item.querySelector('span').textContent;
+                    console.log(`Clicou na categoria: ${categoryName}`);
+                });
+            });
+
+            document.querySelectorAll('section.mb-20 .grid > div').forEach(item => {
+                item.addEventListener('click', () => {
+                    const dishName = item.querySelector('p:first-child').textContent;
+                    console.log(`Clicou no prato: ${dishName}`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
