@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Administração</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .active-tab {
+            background-color: #f3f4f6; /* Tailwind gray-100 */
+            border-bottom: 2px solid #dc2626; /* Tailwind red-600 */
+            color: #dc2626; /* Tailwind red-600 */
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-4">
+
+    <!-- Admin Panel Container -->
+    <div class="w-full max-w-2xl bg-white shadow-lg rounded-lg overflow-hidden flex flex-col min-h-[80vh]">
+
+        <!-- Header -->
+        <header class="bg-red-600 p-4 text-white text-center rounded-t-lg">
+            <h1 class="text-2xl font-bold">Painel de Administração</h1>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="flex border-b border-gray-200">
+            <button id="categoriesTab" class="flex-1 py-3 text-center font-medium text-gray-700 border-r border-gray-200 hover:bg-gray-200 transition-colors duration-200 active-tab">
+                Categorias
+            </button>
+            <button id="dishesTab" class="flex-1 py-3 text-center font-medium text-gray-700 border-r border-gray-200 hover:bg-gray-200 transition-colors duration-200">
+                Pratos
+            </button>
+            <button id="bannerTab" class="flex-1 py-3 text-center font-medium text-gray-700 hover:bg-gray-200 transition-colors duration-200">
+                Banner
+            </button>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="flex-grow p-6 overflow-y-auto">
+
+            <!-- Categories Section -->
+            <section id="categoriesSection" class="active-section">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Gerenciar Categorias</h2>
+
+                <!-- Add Category Form -->
+                <div class="bg-gray-50 p-4 rounded-lg shadow-sm mb-6">
+                    <h3 class="text-lg font-medium text-gray-700 mb-3">Adicionar Nova Categoria</h3>
+                    <input type="text" id="newCategoryName" placeholder="Nome da Categoria" class="w-full p-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500 mb-3">
+                    <button id="addCategoryBtn" class="w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition-colors duration-200">
+                        Adicionar Categoria
+                    </button>
+                </div>
+
+                <!-- Categories List -->
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <h3 class="text-lg font-medium text-gray-700 mb-3">Categorias Existentes</h3>
+                    <ul id="categoriesList" class="space-y-2">
+                        <!-- Categories will be loaded here by JavaScript -->
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Dishes Section -->
+            <section id="dishesSection" class="hidden">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Gerenciar Pratos</h2>
+
+                <!-- Add Dish Form -->
+                <div class="bg-gray-50 p-4 rounded-lg shadow-sm mb-6">
+                    <h3 class="text-lg font-medium text-gray-700 mb-3">Adicionar Novo Prato</h3>
+                    <input type="text" id="newDishName" placeholder="Nome do Prato" class="w-full p-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500 mb-3">
+                    <textarea id="newDishDescription" placeholder="Descrição do Prato" rows="3" class="w-full p-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500 mb-3"></textarea>
+                    <input type="text" id="newDishPrice" placeholder="Preço (ex: 25.50)" class="w-full p-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500 mb-3">
+                    <!-- Changed from text to file input for image upload -->
+                    <label for="newDishImageFile" class="block text-sm font-medium text-gray-700 mb-1">Imagem do Prato (PNG/JPG):</label>
+                    <input type="file" id="newDishImageFile" accept="image/png, image/jpeg" class="w-full p-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500 mb-3">
+                    <select id="newDishCategory" class="w-full p-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500 mb-3">
+                        <option value="">Selecionar Categoria</option>
+                        <!-- Categories will be loaded here by JavaScript -->
+                    </select>
+                    <button id="addDishBtn" class="w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition-colors duration-200">
+                        Adicionar Prato
+                    </button>
+                </div>
+
+                <!-- Dishes List -->
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <h3 class="text-lg font-medium text-gray-700 mb-3">Pratos Existentes</h3>
+                    <ul id="dishesList" class="space-y-2">
+                        <!-- Dishes will be loaded here by JavaScript -->
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Banner Section -->
+            <section id="bannerSection" class="hidden">
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Gerenciar Banner Promocional</h2>
+
+                <div class="bg-gray-50 p-4 rounded-lg shadow-sm mb-6">
+                    <h3 class="text-lg font-medium text-gray-700 mb-3">Detalhes do Banner</h3>
+                    <input type="text" id="bannerTitle" placeholder="Título do Banner (ex: famosos com desconto)" class="w-full p-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500 mb-3">
+                    <!-- Changed from text to file input for banner image upload -->
+                    <label for="bannerBurgerImageFile" class="block text-sm font-medium text-gray-700 mb-1">Imagem do Burger no Banner (PNG/JPG):</label>
+                    <input type="file" id="bannerBurgerImageFile" accept="image/png, image/jpeg" class="w-full p-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500 mb-3">
+                    <input type="text" id="bannerIfoodText" placeholder="Texto 'Pede iFood!'" class="w-full p-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500 mb-3">
+                    <button id="saveBannerBtn" class="w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition-colors duration-200">
+                        Salvar Configurações do Banner
+                    </button>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Data storage (simulated, in a real app this would be a database)
+            // IMPORTANT: Storing large Base64 images in localStorage can quickly exhaust its 5MB limit.
+            // For a production application, consider using cloud storage (e.g., Firebase Storage, AWS S3)
+            // and storing only image URLs in your database.
+
+            let categories = JSON.parse(localStorage.getItem('adminCategories')) || [
+                { id: 'pizza', name: 'Pizza' },
+                { id: 'lanches', name: 'Lanches' },
+                { id: 'porcao', name: 'Porção' },
+                { id: 'bebidas', name: 'Bebidas' },
+                { id: 'sobremesas', name: 'Sobremesas' },
+                { id: 'combos', name: 'Combos' }
+            ];
+
+            let dishes = JSON.parse(localStorage.getItem('adminDishes')) || [
+                // Initial dishes with placeholder images (will be replaced by uploaded images)
+                { id: 'pizza-calabresa', name: 'Pizza Calabresa', description: 'Mussarela, calabresa, cebola e orégãos.', price: '35.00', imageData: null, imageUrl: 'https://placehold.co/80x80/FF4500/FFFFFF?text=Pizza', categoryId: 'pizza' },
+                { id: 'x-burger-duplo', name: 'X-Burger Duplo', description: 'Dois hambúrgueres, queijo, alface e molho especial.', price: '28.00', imageData: null, imageUrl: 'https://placehold.co/80x80/FFD700/000000?text=Lanche', categoryId: 'lanches' },
+                { id: 'batata-frita-grande', name: 'Batata Frita Grande', description: 'Porção generosa de batatas fritas crocantes.', price: '15.00', imageData: null, imageUrl: 'https://placehold.co/80x80/32CD32/FFFFFF?text=Porção', categoryId: 'porcao' }
+            ];
+
+            let banner = JSON.parse(localStorage.getItem('adminBanner')) || {
+                title: 'famosos<br>com desconto',
+                burgerImageData: null, // Stores Base64 image data
+                burgerImageUrl: 'https://placehold.co/200x150/FF0000/FFFFFF?text=Burger', // Fallback URL
+                ifoodText: 'Pede iFood!'
+            };
+
+            // Save data to localStorage
+            function saveData() {
+                localStorage.setItem('adminCategories', JSON.stringify(categories));
+                localStorage.setItem('adminDishes', JSON.stringify(dishes));
+                localStorage.setItem('adminBanner', JSON.stringify(banner));
+            }
+
+            // Helper function to read file as Base64
+            function readFileAsBase64(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = error => reject(error);
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            // --- Category Management ---
+            const categoriesTab = document.getElementById('categoriesTab');
+            const categoriesSection = document.getElementById('categoriesSection');
+            const newCategoryNameInput = document.getElementById('newCategoryName');
+            const addCategoryBtn = document.getElementById('addCategoryBtn');
+            const categoriesList = document.getElementById('categoriesList');
+
+            function renderCategories() {
+                categoriesList.innerHTML = '';
+                categories.forEach(category => {
+                    const li = document.createElement('li');
+                    li.className = 'flex justify-between items-center bg-gray-100 p-3 rounded-md';
+                    li.innerHTML = `
+                        <span class="text-gray-800">${category.name}</span>
+                        <div>
+                            <button data-id="${category.id}" class="edit-category-btn text-blue-500 hover:text-blue-700 mr-2">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button data-id="${category.id}" class="delete-category-btn text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    categoriesList.appendChild(li);
+                });
+                populateCategorySelect(); // Update dish category dropdown
+            }
+
+            addCategoryBtn.addEventListener('click', () => {
+                const name = newCategoryNameInput.value.trim();
+                if (name) {
+                    const newId = name.toLowerCase().replace(/\s+/g, '-');
+                    if (!categories.some(cat => cat.id === newId)) {
+                        categories.push({ id: newId, name: name });
+                        saveData();
+                        renderCategories();
+                        newCategoryNameInput.value = '';
+                    } else {
+                        console.log('Categoria já existe!');
+                        alert('Categoria já existe!');
+                    }
+                }
+            });
+
+            categoriesList.addEventListener('click', (e) => {
+                if (e.target.closest('.delete-category-btn')) {
+                    const idToDelete = e.target.closest('.delete-category-btn').dataset.id;
+                    // Prevent deleting categories if dishes are associated
+                    const hasDishes = dishes.some(dish => dish.categoryId === idToDelete);
+                    if (hasDishes) {
+                        console.log('Não é possível excluir esta categoria, pois há pratos associados a ela.');
+                        alert('Não é possível excluir esta categoria, pois há pratos associados a ela.'); // Using alert for immediate feedback
+                    } else {
+                        categories = categories.filter(cat => cat.id !== idToDelete);
+                        saveData();
+                        renderCategories();
+                    }
+                }
+                if (e.target.closest('.edit-category-btn')) {
+                    const idToEdit = e.target.closest('.edit-category-btn').dataset.id;
+                    const category = categories.find(cat => cat.id === idToEdit);
+                    if (category) {
+                        const newName = prompt(`Editar categoria "${category.name}":`, category.name);
+                        if (newName !== null && newName.trim() !== '' && newName.trim() !== category.name) {
+                            const newId = newName.toLowerCase().replace(/\s+/g, '-');
+                            if (!categories.some(cat => cat.id === newId && cat.id !== idToEdit)) {
+                                // Update categoryId in dishes if category ID changes
+                                if (category.id !== newId) {
+                                    dishes.forEach(dish => {
+                                        if (dish.categoryId === category.id) {
+                                            dish.categoryId = newId;
+                                        }
+                                    });
+                                }
+                                category.name = newName.trim();
+                                category.id = newId;
+                                saveData();
+                                renderCategories();
+                                renderDishes(); // Re-render dishes to reflect category name changes
+                            } else {
+                                alert('Nome de categoria já existe ou é inválido.');
+                            }
+                        }
+                    }
+                }
+            });
+
+            // --- Dish Management ---
+            const dishesTab = document.getElementById('dishesTab');
+            const dishesSection = document.getElementById('dishesSection');
+            const newDishNameInput = document.getElementById('newDishName');
+            const newDishDescriptionInput = document.getElementById('newDishDescription');
+            const newDishPriceInput = document.getElementById('newDishPrice');
+            const newDishImageFileInput = document.getElementById('newDishImageFile'); // Changed to file input
+            let currentDishImageData = null; // To hold Base64 data for new dish
+            const newDishCategorySelect = document.getElementById('newDishCategory');
+            const addDishBtn = document.getElementById('addDishBtn');
+            const dishesList = document.getElementById('dishesList');
+
+            // Event listener for dish image file input
+            newDishImageFileInput.addEventListener('change', async (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    try {
+                        currentDishImageData = await readFileAsBase64(file);
+                    } catch (error) {
+                        console.error('Erro ao ler o arquivo de imagem do prato:', error);
+                        currentDishImageData = null;
+                        alert('Erro ao carregar a imagem do prato. Tente novamente.');
+                    }
+                } else {
+                    currentDishImageData = null;
+                }
+            });
+
+            // Event listener for price input formatting
+            newDishPriceInput.addEventListener('blur', () => {
+                let value = newDishPriceInput.value.trim();
+                value = value.replace(',', '.'); // Replace comma with dot for proper parsing
+                let price = parseFloat(value);
+                if (!isNaN(price) && price >= 0) {
+                    newDishPriceInput.value = `R$${price.toFixed(2).replace('.', ',')}`;
+                } else if (value !== '') { // If not empty but invalid, clear it or show error
+                    newDishPriceInput.value = '';
+                    alert('Por favor, insira um preço válido (apenas números).');
+                }
+            });
+
+            // Restore numeric value when input is focused for easier editing
+            newDishPriceInput.addEventListener('focus', () => {
+                let value = newDishPriceInput.value.trim();
+                if (value.startsWith('R$')) {
+                    newDishPriceInput.value = value.replace('R$', '').replace(',', '.');
+                }
+            });
+
+
+            function populateCategorySelect() {
+                newDishCategorySelect.innerHTML = '<option value="">Selecionar Categoria</option>';
+                categories.forEach(category => {
+                    const option = document.createElement('option');
+                    option.value = category.id;
+                    option.textContent = category.name;
+                    newDishCategorySelect.appendChild(option);
+                });
+            }
+
+            function renderDishes() {
+                dishesList.innerHTML = '';
+                dishes.forEach(dish => {
+                    const categoryName = categories.find(cat => cat.id === dish.categoryId)?.name || 'Sem Categoria';
+                    const li = document.createElement('li');
+                    li.className = 'flex items-center bg-gray-100 p-3 rounded-md shadow-sm';
+                    // Use imageData if available, otherwise fallback to imageUrl
+                    const imgSrc = dish.imageData || dish.imageUrl;
+                    li.innerHTML = `
+                        <img src="${imgSrc}" alt="${dish.name}" class="w-16 h-16 object-cover rounded-md mr-4" onerror="this.onerror=null;this.src='https://placehold.co/80x80/CCCCCC/FFFFFF?text=No+Image';">
+                        <div class="flex-grow">
+                            <p class="font-medium text-gray-800">${dish.name} <span class="text-sm text-gray-500">(${categoryName})</span></p>
+                            <p class="text-sm text-gray-600">${dish.description}</p>
+                            <p class="text-base font-semibold text-green-600">R$ ${parseFloat(dish.price).toFixed(2).replace('.', ',')}</p>
+                        </div>
+                        <div>
+                            <button data-id="${dish.id}" class="edit-dish-btn text-blue-500 hover:text-blue-700 mr-2">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button data-id="${dish.id}" class="delete-dish-btn text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    dishesList.appendChild(li);
+                });
+            }
+
+            addDishBtn.addEventListener('click', () => {
+                const name = newDishNameInput.value.trim();
+                const description = newDishDescriptionInput.value.trim();
+                let price = newDishPriceInput.value.trim().replace('R$', '').replace(',', '.'); // Remove R$ and replace comma for parsing
+                price = parseFloat(price);
+                const categoryId = newDishCategorySelect.value;
+
+                if (name && description && !isNaN(price) && price > 0 && categoryId && currentDishImageData) { // Require image data
+                    const newId = name.toLowerCase().replace(/\s+/g, '-');
+                    if (!dishes.some(d => d.id === newId)) {
+                        dishes.push({ id: newId, name, description, price: price.toFixed(2), imageData: currentDishImageData, imageUrl: null, categoryId });
+                        saveData();
+                        renderDishes();
+                        // Clear form and reset image data
+                        newDishNameInput.value = '';
+                        newDishDescriptionInput.value = '';
+                        newDishPriceInput.value = '';
+                        newDishImageFileInput.value = ''; // Clear file input
+                        currentDishImageData = null;
+                        newDishCategorySelect.value = '';
+                    } else {
+                        console.log('Prato já existe!');
+                        alert('Prato já existe!');
+                    }
+                } else {
+                    alert('Por favor, preencha todos os campos, inclua uma imagem e certifique-se de que o preço é válido.');
+                }
+            });
+
+            dishesList.addEventListener('click', async (e) => {
+                if (e.target.closest('.delete-dish-btn')) {
+                    const idToDelete = e.target.closest('.delete-dish-btn').dataset.id;
+                    dishes = dishes.filter(dish => dish.id !== idToDelete);
+                    saveData();
+                    renderDishes();
+                }
+                if (e.target.closest('.edit-dish-btn')) {
+                    const idToEdit = e.target.closest('.edit-dish-btn').dataset.id;
+                    const dish = dishes.find(d => d.id === idToEdit);
+                    if (dish) {
+                        const newName = prompt('Editar nome:', dish.name);
+                        const newDescription = prompt('Editar descrição:', dish.description);
+                        const newPricePrompt = prompt('Editar preço:', dish.price.replace('.', ',')); // Display with comma for editing
+                        // For editing, we'll prompt for a new image or keep existing
+                        const newImagePrompt = confirm('Deseja alterar a imagem do prato?');
+                        let newImageData = dish.imageData; // Keep existing by default
+
+                        if (newImagePrompt) {
+                            const fileInput = document.createElement('input');
+                            fileInput.type = 'file';
+                            fileInput.accept = 'image/png, image/jpeg';
+                            fileInput.style.display = 'none'; // Hide the input
+                            document.body.appendChild(fileInput); // Append to body to trigger click
+
+                            fileInput.click(); // Open file dialog
+
+                            await new Promise(resolve => {
+                                fileInput.onchange = async (event) => {
+                                    const file = event.target.files[0];
+                                    if (file) {
+                                        try {
+                                            newImageData = await readFileAsBase64(file);
+                                        } catch (error) {
+                                            console.error('Erro ao ler a nova imagem do prato:', error);
+                                            alert('Erro ao carregar a nova imagem do prato. Tente novamente.');
+                                        }
+                                    }
+                                    document.body.removeChild(fileInput); // Clean up
+                                    resolve();
+                                };
+                            });
+                        }
+
+                        const newCategory = prompt('Editar ID da categoria (ex: pizza):', dish.categoryId);
+
+                        if (newName !== null && newDescription !== null && newPricePrompt !== null && newCategory !== null) {
+                            let parsedPrice = newPricePrompt.replace(',', '.'); // Replace comma with dot for parsing
+                            parsedPrice = parseFloat(parsedPrice);
+                            if (!isNaN(parsedPrice) && parsedPrice > 0) {
+                                dish.name = newName.trim();
+                                dish.description = newDescription.trim();
+                                dish.price = parsedPrice.toFixed(2);
+                                dish.imageData = newImageData; // Update image data
+                                dish.imageUrl = null; // Clear old URL if new image is provided
+                                dish.categoryId = newCategory.trim();
+                                saveData();
+                                renderDishes();
+                            } else {
+                                alert('Preço inválido. Por favor, insira um número válido.');
+                            }
+                        }
+                    }
+                }
+            });
+
+            // --- Banner Management ---
+            const bannerTab = document.getElementById('bannerTab');
+            const bannerSection = document.getElementById('bannerSection');
+            const bannerTitleInput = document.getElementById('bannerTitle');
+            const bannerBurgerImageFileInput = document.getElementById('bannerBurgerImageFile'); // Changed to file input
+            let currentBannerImageData = null; // To hold Base64 data for banner image
+            const bannerIfoodTextInput = document.getElementById('bannerIfoodText');
+            const saveBannerBtn = document.getElementById('saveBannerBtn');
+
+            // Event listener for banner image file input
+            bannerBurgerImageFileInput.addEventListener('change', async (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    try {
+                        currentBannerImageData = await readFileAsBase64(file);
+                    } catch (error) {
+                        console.error('Erro ao ler o arquivo de imagem do banner:', error);
+                        currentBannerImageData = null;
+                        alert('Erro ao carregar a imagem do banner. Tente novamente.');
+                    }
+                } else {
+                    currentBannerImageData = null;
+                }
+            });
+
+            function loadBannerSettings() {
+                bannerTitleInput.value = banner.title.replace(/<br>/g, '\n');
+                // No need to set value for file input, it's read on change
+                bannerIfoodTextInput.value = banner.ifoodText;
+            }
+
+            saveBannerBtn.addEventListener('click', () => {
+                banner.title = bannerTitleInput.value.trim().replace(/\n/g, '<br>');
+                if (currentBannerImageData) { // Only update if a new image was selected
+                    banner.burgerImageData = currentBannerImageData;
+                    banner.burgerImageUrl = null; // Clear old URL if new image is provided
+                }
+                banner.ifoodText = bannerIfoodTextInput.value.trim();
+                saveData();
+                alert('Configurações do banner salvas!');
+                console.log('Banner settings saved:', banner);
+            });
+
+            // --- Tab Switching Logic ---
+            const allSections = document.querySelectorAll('main section');
+            const allTabs = document.querySelectorAll('nav button');
+
+            function showSection(sectionId) {
+                allSections.forEach(section => {
+                    section.classList.add('hidden');
+                    section.classList.remove('active-section');
+                });
+                document.getElementById(sectionId).classList.remove('hidden');
+                document.getElementById(sectionId).classList.add('active-section');
+
+                allTabs.forEach(tab => tab.classList.remove('active-tab'));
+                document.getElementById(sectionId.replace('Section', 'Tab')).classList.add('active-tab');
+
+                // Load banner settings when banner tab is active
+                if (sectionId === 'bannerSection') {
+                    loadBannerSettings();
+                    // Reset file input for banner when opening the tab
+                    bannerBurgerImageFileInput.value = '';
+                    currentBannerImageData = null;
+                }
+                // Reset file input for dishes when opening the tab
+                if (sectionId === 'dishesSection') {
+                    newDishImageFileInput.value = '';
+                    currentDishImageData = null;
+                }
+            }
+
+            categoriesTab.addEventListener('click', () => showSection('categoriesSection'));
+            dishesTab.addEventListener('click', () => showSection('dishesSection'));
+            bannerTab.addEventListener('click', () => showSection('bannerSection'));
+
+            // Initial render
+            renderCategories();
+            renderDishes();
+            populateCategorySelect();
+            showSection('categoriesSection'); // Show categories by default
+        });
+    </script>
+</body>
+</html>
